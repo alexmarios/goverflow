@@ -1,0 +1,17 @@
+python-dotenv
+langchain
+langchain-core
+langchain-ollama
+ollama
+requests
+beautifulsoup4
+pydantic
+fastapi
+uvicorn
+watchfiles
+psycopg2-binary
+pymongo
+kafka-python
+redis
+pdfminer.six
+pypdf

@@ -1,0 +1,29 @@
+{
+  "session_id": "a2e1312f-f829-49ce-87be-7ee225896198",
+  "created_at": "2026-04-28T21:46:40.736612Z",
+  "turns": [
+    {
+      "turn_id": "5f640c4e-f0c9-4229-b55a-e86f667199d9",
+      "timestamp": "2026-04-28T21:46:40.739265Z",
+      "role": "human",
+      "message": "why you dont use ingestion agent to check dags?",
+      "plan": null,
+      "agent_results": null,
+      "metadata": {}
+    },
+    {
+      "turn_id": "ec4cd74e-795b-4fec-9604-11e56f8fe12b",
+      "timestamp": "2026-04-28T21:46:40.739302Z",
+      "role": "orchestrator",
+      "message": "Missing required parameter: dag_id",
+      "plan": [],
+      "agent_results": {},
+      "metadata": {
+        "latency_ms": 0,
+        "agents_used": [],
+        "subtask_count": 0,
+        "from_cache": false
+      }
+    }
+  ]
+}

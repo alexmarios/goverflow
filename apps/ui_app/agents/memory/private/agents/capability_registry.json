@@ -1,0 +1,20 @@
+{
+  "analyst": {
+    "status": "offline",
+    "last_heartbeat": null,
+    "avg_response_ms": 0.0,
+    "error_rate_7d": 0.0
+  },
+  "governance": {
+    "status": "healthy",
+    "last_heartbeat": null,
+    "avg_response_ms": 0.0,
+    "error_rate_7d": 0.0
+  },
+  "ingestion": {
+    "status": "healthy",
+    "last_heartbeat": null,
+    "avg_response_ms": 0.0,
+    "error_rate_7d": 0.0
+  }
+}

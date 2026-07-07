@@ -1,0 +1,45 @@
+{
+  "refreshed_at": "2026-05-16T20:00:01.981705+00:00",
+  "services": [
+    {
+      "fqn": "GDELT_MongoDB",
+      "type": "MongoDB"
+    },
+    {
+      "fqn": "Raw_Data_Postgres",
+      "type": "Postgres"
+    }
+  ],
+  "databases": [
+    {
+      "fqn": "Raw_Data_Postgres.airflow_db",
+      "service": "Raw_Data_Postgres"
+    },
+    {
+      "fqn": "GDELT_MongoDB.gdelt_events",
+      "service": "GDELT_MongoDB"
+    },
+    {
+      "fqn": "GDELT_MongoDB.gkd_db",
+      "service": "GDELT_MongoDB"
+    },
+    {
+      "fqn": "Raw_Data_Postgres.openmetadata_db",
+      "service": "Raw_Data_Postgres"
+    },
+    {
+      "fqn": "Raw_Data_Postgres.postgres",
+      "service": "Raw_Data_Postgres"
+    },
+    {
+      "fqn": "Raw_Data_Postgres.stack_db",
+      "service": "Raw_Data_Postgres"
+    },
+    {
+      "fqn": "Raw_Data_Postgres.stack_user",
+      "service": "Raw_Data_Postgres"
+    }
+  ],
+  "tables": [],
+  "mongo": []
+}

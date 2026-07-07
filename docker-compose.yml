@@ -1,0 +1,229 @@
+version: "3.8"
+
+x-airflow-common: &airflow-common
+  build:
+    context: .
+    dockerfile: Dockerfile.airflow
+  environment:
+    AIRFLOW__CORE__EXECUTOR: LocalExecutor
+    AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://${DB_USER}:${DB_PASSWORD}@postgres:5432/airflow_db
+    AIRFLOW__CORE__FERNET_KEY: ${AIRFLOW__CORE__FERNET_KEY}
+    AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: "false"
+    AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+    AIRFLOW__WEBSERVER__EXPOSE_CONFIG: "true"
+    AIRFLOW__API__AUTH_BACKENDS: "airflow.api.auth.backend.basic_auth,airflow.api.auth.backend.session"
+    AIRFLOW__LINEAGE__BACKEND: "airflow_provider_openmetadata.lineage.backend.OpenMetadataLineageBackend"
+    AIRFLOW__LINEAGE__AIRFLOW_SERVICE_NAME: "local_airflow"
+    AIRFLOW__LINEAGE__OPENMETADATA_API_ENDPOINT: "http://openmetadata-server:8585/api"
+    AIRFLOW__LINEAGE__JWT_TOKEN: "eyJraWQiOiJHYjM4OWEtOWY3Ni1nZGpzLWE5MmotMDI0MmJrOTQzNTYiLCJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJvcGVuLW1ldGFkYXRhLm9yZyIsInN1YiI6ImluZ2VzdGlvbi1ib3QiLCJyb2xlcyI6WyJJbmdlc3Rpb25Cb3RSb2xlIl0sImVtYWlsIjoiaW5nZXN0aW9uLWJvdEBvcGVuLW1ldGFkYXRhLm9yZyIsImlzQm90Ijp0cnVlLCJ0b2tlblR5cGUiOiJCT1QiLCJ1c2VybmFtZSI6ImluZ2VzdGlvbi1ib3QiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJpbmdlc3Rpb24tYm90IiwiaWF0IjoxNzc2NzI3ODc4LCJleHAiOm51bGx9.jCX6xcDbCsBgfv_3Si7siFdEuHSgmMwMmbF99zQgSgKOvwB6CHQX_qJeQSVFCq8D_UKxBg6maky2RwryerAHmKSDfzuX2gwHdtA-wl2nsP_RNfjhIWk17RUgLqAY_yN8Eq1OAMMo7miPzdK-WD_sD0vkGHr5MRxXPhmKa3M1UF0_8xAeqYtjB_e_aeMvHUN3qVmI4zUkfj5vuv2E2AD3p21pPKZ9-EH5nk3Re0L5WH92XcmafteCM0JPvC4b3em7eAn3rn6NACPJTqv0oqJm3B0egktMRX_n5ywn1yp1SNB022ycHJDJVaZncbVTnRNybzg1ZiooIFUIMu9JPuuO-g"
+    AIRFLOW__WEBSERVER__BASE_URL: "http://airflow-webserver:8080"
+    AIRFLOW__WEBSERVER__INSTANCE_NAME: "DevEnv"
+    DB_USER: ${DB_USER}
+    DB_PASSWORD: ${DB_PASSWORD}
+    MONGO_URI: "mongodb://${MONGO_USER}:${MONGO_PASSWORD}@mongodb:27017"
+    OPENMETADATA_HOST: "http://openmetadata-server:8585"
+    PYTHONWARNINGS: "ignore"
+  volumes:
+    - /home/alexpi/goverflow/dags:/opt/airflow/dags
+    - /home/alexpi/goverflow/logs/airflow:/opt/airflow/logs
+    - /home/alexpi/goverflow/apps/raw:/home/alexpi/goverflow/apps/raw
+    - /home/alexpi/goverflow/dag_generated_configs:/opt/airflow/dag_generated_configs
+    - /home/alexpi/goverflow/apps/ui_app/agents/memory:/home/alexpi/goverflow/apps/ui_app/agents/memory
+  depends_on:
+    postgres:
+      condition: service_healthy
+  networks:
+    - stack_net
+
+services:
+
+  # ── PostgreSQL ───────────────────────────────────────────────────────────────
+  postgres:
+    image: postgres:15
+    restart: unless-stopped
+    command: postgres -c shared_preload_libraries=pg_stat_statements
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - /home/alexpi/goverflow/apps/postgres:/var/lib/postgresql/data
+      - /home/alexpi/goverflow/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "${DB_USER}"]
+      interval: 10s
+      retries: 5
+      start_period: 20s
+    networks:
+      - stack_net
+
+  # ── Redis ────────────────────────────────────────────────────────────────────
+ # redis:
+ #   image: redis:7-alpine
+ #   restart: unless-stopped
+ #   ports:
+ #     - "6379:6379"
+ #   volumes:
+ #     - /home/alexpi/goverflow/apps/redis:/data
+ #   healthcheck:
+ #     test: ["CMD", "redis-cli", "ping"]
+ #     interval: 10s
+ #     retries: 5
+ #     start_period: 10s
+ #   networks:
+ #     - stack_net
+ 
+ # ── MongoDB ──────────────────────────────────────────────────────────────────
+  mongodb:
+    image: mongo:7
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+    volumes:
+      - /home/alexpi/goverflow/apps/mongodb:/data/db
+    ports:
+      - "27017:27017"
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      interval: 10s
+      retries: 5
+      start_period: 20s
+    networks:
+      - stack_net
+
+  # ── Kafka ────────────────────────────────────────────────────────────────────
+  kafka:
+    image: confluentinc/cp-kafka:7.7.1
+    restart: unless-stopped
+    ports:
+      - "9092:9092"
+      - "29092:29092"
+    environment:
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      #KAFKA_LISTENERS: INTERNAL://0.0.0.0:9092,EXTERNAL://0.0.0.0:29092,CONTROLLER://0.0.0.0:9093
+      #KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka:9092,EXTERNAL://localhost:29092
+      #KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT,CONTROLLER:PLAINTEXT
+      #KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      CLUSTER_ID: "MkU3OEVBNTcwNTJENDM2Qk"
+      
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka:9092,EXTERNAL://100.95.246.75:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT,CONTROLLER:PLAINTEXT
+      KAFKA_LISTENERS: INTERNAL://0.0.0.0:9092,EXTERNAL://0.0.0.0:29092,CONTROLLER://0.0.0.0:9093
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+    volumes:
+      - /home/alexpi/goverflow/apps/kafka:/var/lib/kafka/data
+    healthcheck:
+      test: ["CMD", "kafka-broker-api-versions", "--bootstrap-server", "localhost:9092"]
+      interval: 15s
+      retries: 10
+      start_period: 30s
+    networks:
+      - stack_net
+
+  # ── Elasticsearch ────────────────────────────────────────────────────────────
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.24
+    restart: unless-stopped
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
+    volumes:
+      - /home/alexpi/goverflow/apps/elasticsearch:/usr/share/elasticsearch/data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -s http://localhost:9200/_cluster/health | grep -qE '\"status\":\"(green|yellow)\"'"]
+      interval: 15s
+      retries: 10
+      start_period: 30s
+    networks:
+      - stack_net
+
+  # ── OpenMetadata Server ──────────────────────────────────────────────────────
+  openmetadata-server:
+    image: openmetadata/server:1.12.5
+    restart: unless-stopped
+    environment:
+      DB_DRIVER_CLASS: org.postgresql.Driver
+      DB_SCHEME: postgresql
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: ${DB_USER}
+      DB_USER_PASSWORD: ${DB_PASSWORD}
+      OM_DATABASE: openmetadata_db
+      ELASTICSEARCH_HOST: elasticsearch
+      ELASTICSEARCH_PORT: 9200
+      ELASTICSEARCH_SCHEME: http
+      SEARCH_TYPE: elasticsearch
+      PIPELINE_SERVICE_CLIENT_ENDPOINT: "http://airflow-webserver:8080"
+      PIPELINE_SERVICE_CLIENT_CLASS_NAME: "org.openmetadata.service.clients.pipeline.airflow.AirflowRESTClient"
+      PIPELINE_SERVICE_CLIENT_VERIFY_SSL: "no-ssl"
+      AIRFLOW_USERNAME: ${AIRFLOW_ADMIN_USER}
+      AIRFLOW_PASSWORD: ${AIRFLOW_ADMIN_PASSWORD}
+      SERVER_HOST_API_URL: "http://openmetadata-server:8585/api"
+    ports:
+      - "8585:8585"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+    networks:
+      - stack_net
+
+  # ── Airflow Init ─────────────────────────────────────────────────────────────
+  airflow-init:
+    <<: *airflow-common
+    user: "50000:0"
+    command: bash -c "airflow db migrate && airflow users create --username ${AIRFLOW_ADMIN_USER} --password ${AIRFLOW_ADMIN_PASSWORD} --firstname Admin --lastname User --role Admin --email admin@example.com"
+    restart: "no"
+
+  # ── Airflow Webserver ────────────────────────────────────────────────────────
+  airflow-webserver:
+    <<: *airflow-common
+    command: webserver
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    depends_on:
+      airflow-init:
+        condition: service_completed_successfully
+
+  # ── Airflow Scheduler ────────────────────────────────────────────────────────
+  airflow-scheduler:
+    <<: *airflow-common
+    command: scheduler
+    restart: unless-stopped
+    depends_on:
+      airflow-init:
+        condition: service_completed_successfully
+
+  # ── Multi-Agent UI ──────────────────────────────────────────────────────────
+  ui-app:
+    build:
+      context: ./apps/ui_app
+      dockerfile: Dockerfile
+    volumes:
+      - ./apps/ui_app:/app
+      - /home/alexpi/goverflow/dags:/home/alexpi/goverflow/dags
+    ports:
+      - "8010:8010"
+    env_file:
+      - ./apps/ui_app/.env
+    environment:
+      PYTHONUNBUFFERED: "1"
+    restart: unless-stopped
+    networks:
+      - stack_net
+
+volumes: {}
+
+networks:
+  stack_net:
+    driver: bridge

@@ -1,0 +1,6 @@
+{
+    "python.defaultInterpreterPath": "/home/alexpi/goverflow/.venv/bin/python",
+    "python.analysis.extraPaths": [
+        "${workspaceFolder}/apps/ui_app"
+    ]
+}

@@ -1,0 +1,30 @@
+{
+  "session_id": "84d1dd0b-f4e3-4f40-9318-94b6dcf977aa",
+  "created_at": "2026-04-30T10:51:22.418188Z",
+  "turns": [
+    {
+      "turn_id": "886a4536-41ae-4d8b-8aa6-63f2875029d9",
+      "timestamp": "2026-04-30T10:52:31.727157Z",
+      "role": "human",
+      "message": "do you have all our chat?",
+      "plan": null,
+      "agent_results": null,
+      "metadata": {}
+    },
+    {
+      "turn_id": "84ba7ab1-4926-46e6-bdcd-910d91100e58",
+      "timestamp": "2026-04-30T10:52:31.727193Z",
+      "role": "orchestrator",
+      "message": "I am the orchestrator agent. I can coordinate analytical, governance, and ingestion tasks.",
+      "plan": [],
+      "agent_results": {},
+      "metadata": {
+        "latency_ms": 69308,
+        "agents_used": [],
+        "subtask_count": 0,
+        "intent_type": "conversational",
+        "from_cache": false
+      }
+    }
+  ]
+}
