@@ -195,10 +195,10 @@ atlas clusters search indexes create \
 
 ## MongoDB MCP Server - AI Integration
 
-The MongoDB MCP Server enables AI assistants (Claude, Cursor, Windsurf, VS Code Copilot) to interact with MongoDB databases using natural language. It provides tools for Atlas management, local deployments, CRUD operations, and vector search capabilities.
+The MongoDB MCP Server enables AI assistants (Cursor, Windsurf, VS Code Copilot) to interact with MongoDB databases using natural language. It provides tools for Atlas management, local deployments, CRUD operations, and vector search capabilities.
 
 ```json
-// MCP Server Configuration (~/.config/claude/mcp.json)
+// MCP Server Configuration (mcp.json)
 {
   "mcpServers": {
     "mongodb": {

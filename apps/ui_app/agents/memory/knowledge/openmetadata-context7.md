@@ -3432,18 +3432,6 @@ pip install "openmetadata-ingestion[pii-processor]"
 
 --------------------------------
 
-### Verify MCP Application Installation
-
-Source: https://docs.open-metadata.org/v1.12.x/how-to-guides/mcp/claude-code
-
-Check the installation status of the MCP Application within your OpenMetadata instance by navigating to the specified URL.
-
-```bash
-Visit <YOUR-OpenMetadata-SERVER>/marketplace/apps/McpApplication
-```
-
---------------------------------
-
 ### Navigate to Release Directory
 
 Source: https://docs.open-metadata.org/v1.12.x/deployment/upgrade/bare-metal/steps
@@ -3470,18 +3458,6 @@ Install the openmetadata-ingestion package with the Azure SQL extra to enable th
 
 ```bash
 pip3 install "openmetadata-ingestion[azuresql]"
-```
-
---------------------------------
-
-### Install Claude Code Skills Plugin
-
-Source: https://docs.open-metadata.org/v1.12.x/developers/contribute/developing-a-new-connector/ai-assisted-development/install-skills
-
-Install the OpenMetadata skills package as a plugin for Claude Code from the repository root.
-
-```bash
-claude plugin install skills/
 ```
 
 --------------------------------
@@ -6864,18 +6840,6 @@ pip3 install "openmetadata-ingestion[microstrategy]"
 
 --------------------------------
 
-### Start Claude Code Session
-
-Source: https://docs.open-metadata.org/v1.12.x/how-to-guides/mcp/claude-code
-
-Initiates a Claude Code session for interacting with metadata.
-
-```bash
-claude
-```
-
---------------------------------
-
 ### List Data Product Versions
 
 Source: https://docs.open-metadata.org/v1.12.x/api-reference/governance/data-products/versions
@@ -9031,18 +8995,6 @@ Downloads the docker-compose.yml file for deploying OpenMetadata with a MySQL ba
 ```bash
 wget https://github.com/open-metadata/OpenMetadata/releases/download/1.12.6-release/docker-compose.yml
 
-```
-
---------------------------------
-
-### Add MCP Server using JSON Configuration
-
-Source: https://docs.open-metadata.org/v1.12.x/how-to-guides/mcp/claude-code
-
-Adds the OpenMetadata MCP Server using a JSON configuration, including PAT authentication. Replace `<YOUR-OpenMetadata-SERVER>` and `<YOUR-OpenMetadata-PAT>`.
-
-```bash
-claude mcp add-json openmetadata '{ "type": "http", "url": "https://<YOUR-OpenMetadata-SERVER>/mcp", "headers": { "Authorization": "Bearer <YOUR-OpenMetadata-PAT>" } }'
 ```
 
 --------------------------------

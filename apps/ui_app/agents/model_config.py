@@ -5,7 +5,7 @@ Edit this file to change which model each agent uses without touching
 any agent code.
 
 Each agent entry supports these keys:
-  model           — model identifier (e.g. "qwen3.5:397b-cloud", "gpt-4o", "claude-sonnet-4-6")
+  model           — model identifier (e.g. "qwen3.5:397b-cloud", "gpt-4o")
   model_provider  — LangChain provider name: "ollama" | "openai" | "anthropic" | "google_genai" | ...
   base_url        — (optional) custom endpoint, required for self-hosted/Ollama
   temperature     — 0.0 = deterministic, 1.0 = creative
