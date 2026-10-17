@@ -1,5 +1,5 @@
 {
-  "refreshed_at": "2026-07-07T20:30:03.534029+00:00",
+  "refreshed_at": "2026-09-10T03:00:04.419890+00:00",
   "openmetadata": {
     "services": [
       {
@@ -363,7 +363,7 @@
           "schema": "public",
           "table": "dag",
           "col_count": 28,
-          "row_count": 22,
+          "row_count": 24,
           "columns": [
             {
               "name": "dag_id",
@@ -551,7 +551,7 @@
           "schema": "public",
           "table": "dag_run",
           "col_count": 19,
-          "row_count": 14661,
+          "row_count": 18158,
           "columns": [
             {
               "name": "id",
@@ -743,7 +743,7 @@
           "schema": "public",
           "table": "dataset",
           "col_count": 6,
-          "row_count": 4,
+          "row_count": 6,
           "columns": [
             {
               "name": "id",
@@ -835,7 +835,7 @@
           "schema": "public",
           "table": "import_error",
           "col_count": 5,
-          "row_count": 0,
+          "row_count": 2,
           "columns": [
             {
               "name": "id",
@@ -863,7 +863,7 @@
           "schema": "public",
           "table": "job",
           "col_count": 10,
-          "row_count": 15307,
+          "row_count": 20018,
           "columns": [
             {
               "name": "id",
@@ -911,7 +911,7 @@
           "schema": "public",
           "table": "log",
           "col_count": 11,
-          "row_count": 60920,
+          "row_count": 80534,
           "columns": [
             {
               "name": "id",
@@ -987,7 +987,7 @@
           "schema": "public",
           "table": "rendered_task_instance_fields",
           "col_count": 6,
-          "row_count": 542,
+          "row_count": 738,
           "columns": [
             {
               "name": "dag_id",
@@ -1059,7 +1059,7 @@
           "schema": "public",
           "table": "session",
           "col_count": 4,
-          "row_count": 646,
+          "row_count": 665,
           "columns": [
             {
               "name": "id",
@@ -1147,7 +1147,7 @@
           "schema": "public",
           "table": "task_fail",
           "col_count": 8,
-          "row_count": 595,
+          "row_count": 1295,
           "columns": [
             {
               "name": "id",
@@ -1187,7 +1187,7 @@
           "schema": "public",
           "table": "task_instance",
           "col_count": 31,
-          "row_count": 14905,
+          "row_count": 18835,
           "columns": [
             {
               "name": "task_id",
@@ -1676,7 +1676,7 @@
           "schema": "public",
           "table": "act_hi_actinst",
           "col_count": 18,
-          "row_count": 270,
+          "row_count": 0,
           "columns": [
             {
               "name": "id_",
@@ -2344,7 +2344,7 @@
           "schema": "public",
           "table": "act_hi_varinst",
           "col_count": 18,
-          "row_count": 120,
+          "row_count": 0,
           "columns": [
             {
               "name": "id_",
@@ -4432,7 +4432,7 @@
           "schema": "public",
           "table": "apps_extension_time_series",
           "col_count": 5,
-          "row_count": 189,
+          "row_count": 301,
           "columns": [
             {
               "name": "appid",
@@ -4496,7 +4496,7 @@
           "schema": "public",
           "table": "audit_log_event",
           "col_count": 14,
-          "row_count": 8271,
+          "row_count": 6121,
           "columns": [
             {
               "name": "id",
@@ -4688,7 +4688,7 @@
           "schema": "public",
           "table": "change_event",
           "col_count": 6,
-          "row_count": 1095,
+          "row_count": 1024,
           "columns": [
             {
               "name": "eventtype",
@@ -5496,7 +5496,7 @@
           "schema": "public",
           "table": "entity_extension",
           "col_count": 5,
-          "row_count": 8787,
+          "row_count": 13227,
           "columns": [
             {
               "name": "id",
@@ -5524,7 +5524,7 @@
           "schema": "public",
           "table": "entity_extension_time_series",
           "col_count": 5,
-          "row_count": 1965,
+          "row_count": 2790,
           "columns": [
             {
               "name": "extension",
@@ -5552,7 +5552,7 @@
           "schema": "public",
           "table": "entity_relationship",
           "col_count": 8,
-          "row_count": 3707,
+          "row_count": 3927,
           "columns": [
             {
               "name": "fromid",
@@ -5592,7 +5592,7 @@
           "schema": "public",
           "table": "entity_usage",
           "col_count": 9,
-          "row_count": 1557,
+          "row_count": 2194,
           "columns": [
             {
               "name": "id",
@@ -7076,7 +7076,7 @@
           "schema": "public",
           "table": "profiler_data_time_series",
           "col_count": 6,
-          "row_count": 14849,
+          "row_count": 21649,
           "columns": [
             {
               "name": "entityfqnhash",
@@ -7552,7 +7552,7 @@
           "schema": "public",
           "table": "query_cost_time_series",
           "col_count": 7,
-          "row_count": 7531,
+          "row_count": 9051,
           "columns": [
             {
               "name": "id",
@@ -7588,7 +7588,7 @@
           "schema": "public",
           "table": "query_entity",
           "col_count": 8,
-          "row_count": 1557,
+          "row_count": 1667,
           "columns": [
             {
               "name": "id",
@@ -7944,7 +7944,7 @@
           "schema": "public",
           "table": "search_index_partition",
           "col_count": 22,
-          "row_count": 833,
+          "row_count": 1273,
           "columns": [
             {
               "name": "id",
@@ -8076,7 +8076,7 @@
           "schema": "public",
           "table": "search_index_server_stats",
           "col_count": 17,
-          "row_count": 186,
+          "row_count": 278,
           "columns": [
             {
               "name": "id",
@@ -8504,7 +8504,7 @@
           "schema": "public",
           "table": "successful_sent_change_events",
           "col_count": 4,
-          "row_count": 1096,
+          "row_count": 1025,
           "columns": [
             {
               "name": "change_event_id",
@@ -8568,7 +8568,7 @@
           "schema": "public",
           "table": "table_entity",
           "col_count": 9,
-          "row_count": 228,
+          "row_count": 229,
           "columns": [
             {
               "name": "id",
@@ -9582,11 +9582,44 @@
   ],
   "mongo": [
     {
-      "database": "gkd_db",
+      "database": "gkg_db",
       "collections": [
         {
-          "name": "last_hour_gkd",
-          "doc_count": 4104,
+          "name": "gkg_records",
+          "doc_count": 1,
+          "sample_fields": [
+            "GKGRECORDID",
+            "DATE",
+            "SourceCollectionIdentifier",
+            "SourceCommonName",
+            "DocumentIdentifier",
+            "Counts",
+            "V1Counts",
+            "Themes",
+            "V2Themes",
+            "Locations",
+            "V2Locations",
+            "Persons",
+            "V2Persons",
+            "Organizations",
+            "V2Organizations",
+            "V2Tone",
+            "Dates",
+            "GCAM",
+            "SharingImage",
+            "RelatedImages",
+            "SocialImageEmbeds",
+            "SocialVideoEmbeds",
+            "Quotations",
+            "AllNames",
+            "Amounts",
+            "TranslationInfo",
+            "Extras"
+          ]
+        },
+        {
+          "name": "last_24hours_gkd",
+          "doc_count": 26804,
           "sample_fields": [
             "GKGRECORDID",
             "DATE",
@@ -9625,109 +9658,6 @@
           "sample_fields": [
             "field",
             "description"
-          ]
-        },
-        {
-          "name": "last_3hours_gkd",
-          "doc_count": 7932,
-          "sample_fields": [
-            "GKGRECORDID",
-            "DATE",
-            "SourceCollectionIdentifier",
-            "SourceCommonName",
-            "DocumentIdentifier",
-            "Counts",
-            "V2Counts",
-            "Themes",
-            "V2Themes",
-            "Locations",
-            "V2Locations",
-            "Persons",
-            "V2Persons",
-            "Organizations",
-            "V2Organizations",
-            "V2Tone",
-            "Dates",
-            "GCAM",
-            "SharingImage",
-            "RelatedImages",
-            "SocialImageEmbeds",
-            "SocialVideoEmbeds",
-            "Quotations",
-            "AllNames",
-            "Amounts",
-            "TranslationInfo",
-            "Extras",
-            "_source_file_url",
-            "_ingested_at"
-          ]
-        },
-        {
-          "name": "gkg_records",
-          "doc_count": 1,
-          "sample_fields": [
-            "GKGRECORDID",
-            "DATE",
-            "SourceCollectionIdentifier",
-            "SourceCommonName",
-            "DocumentIdentifier",
-            "Counts",
-            "V1Counts",
-            "Themes",
-            "V2Themes",
-            "Locations",
-            "V2Locations",
-            "Persons",
-            "V2Persons",
-            "Organizations",
-            "V2Organizations",
-            "V2Tone",
-            "Dates",
-            "GCAM",
-            "SharingImage",
-            "RelatedImages",
-            "SocialImageEmbeds",
-            "SocialVideoEmbeds",
-            "Quotations",
-            "AllNames",
-            "Amounts",
-            "TranslationInfo",
-            "Extras"
-          ]
-        },
-        {
-          "name": "last_24hours_gkd",
-          "doc_count": 99061,
-          "sample_fields": [
-            "GKGRECORDID",
-            "DATE",
-            "SourceCollectionIdentifier",
-            "SourceCommonName",
-            "DocumentIdentifier",
-            "Counts",
-            "V2Counts",
-            "Themes",
-            "V2Themes",
-            "Locations",
-            "V2Locations",
-            "Persons",
-            "V2Persons",
-            "Organizations",
-            "V2Organizations",
-            "V2Tone",
-            "Dates",
-            "GCAM",
-            "SharingImage",
-            "RelatedImages",
-            "SocialImageEmbeds",
-            "SocialVideoEmbeds",
-            "Quotations",
-            "AllNames",
-            "Amounts",
-            "TranslationInfo",
-            "Extras",
-            "_source_file_url",
-            "_ingested_at"
           ]
         }
       ]

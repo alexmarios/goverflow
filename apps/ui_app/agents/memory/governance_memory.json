@@ -606,6 +606,86 @@
       "asset": "/api/v1/glossaryTerms",
       "finding": "POST /api/v1/glossaryTerms",
       "timestamp": "2026-07-02T22:56:10.103819+00:00"
+    },
+    {
+      "asset": "/api/v1/tags",
+      "finding": "POST /api/v1/tags",
+      "timestamp": "2026-07-11T15:52:57.806603+00:00"
+    },
+    {
+      "asset": "/api/v1/tags",
+      "finding": "POST /api/v1/tags",
+      "timestamp": "2026-07-11T15:53:47.751039+00:00"
+    },
+    {
+      "asset": "/api/v1/classifications",
+      "finding": "POST /api/v1/classifications",
+      "timestamp": "2026-07-11T15:54:34.539179+00:00"
+    },
+    {
+      "asset": "/api/v1/tags",
+      "finding": "POST /api/v1/tags",
+      "timestamp": "2026-07-11T15:55:21.275695+00:00"
+    },
+    {
+      "asset": "/api/v1/tags",
+      "finding": "POST /api/v1/tags",
+      "timestamp": "2026-07-11T15:55:28.898742+00:00"
+    },
+    {
+      "asset": "/api/v1/tags",
+      "finding": "POST /api/v1/tags",
+      "timestamp": "2026-07-11T15:58:14.344413+00:00"
+    },
+    {
+      "asset": "/api/v1/tables/b9280fbe-d9ea-4a3a-ae04-be764e228ee1",
+      "finding": "PATCH /api/v1/tables/b9280fbe-d9ea-4a3a-ae04-be764e228ee1",
+      "timestamp": "2026-07-11T15:58:38.419189+00:00"
+    },
+    {
+      "asset": "/api/v1/tables/b9280fbe-d9ea-4a3a-ae04-be764e228ee1",
+      "finding": "PATCH /api/v1/tables/b9280fbe-d9ea-4a3a-ae04-be764e228ee1",
+      "timestamp": "2026-07-11T15:59:17.479393+00:00"
+    },
+    {
+      "asset": "/api/v1/tables/b9280fbe-d9ea-4a3a-ae04-be764e228ee1",
+      "finding": "PATCH /api/v1/tables/b9280fbe-d9ea-4a3a-ae04-be764e228ee1",
+      "timestamp": "2026-07-11T15:59:46.037802+00:00"
+    },
+    {
+      "asset": "/api/v1/tables/b9280fbe-d9ea-4a3a-ae04-be764e228ee1",
+      "finding": "PATCH /api/v1/tables/b9280fbe-d9ea-4a3a-ae04-be764e228ee1",
+      "timestamp": "2026-07-11T16:03:04.319813+00:00"
+    },
+    {
+      "asset": "/api/v1/tables/b9280fbe-d9ea-4a3a-ae04-be764e228ee1",
+      "finding": "PATCH /api/v1/tables/b9280fbe-d9ea-4a3a-ae04-be764e228ee1",
+      "timestamp": "2026-08-29T22:13:46.823972+00:00"
+    },
+    {
+      "asset": "/api/v1/tables/b9280fbe-d9ea-4a3a-ae04-be764e228ee1",
+      "finding": "PATCH /api/v1/tables/b9280fbe-d9ea-4a3a-ae04-be764e228ee1",
+      "timestamp": "2026-08-29T22:15:27.240029+00:00"
+    },
+    {
+      "asset": "/api/v1/tables/b9280fbe-d9ea-4a3a-ae04-be764e228ee1",
+      "finding": "PATCH /api/v1/tables/b9280fbe-d9ea-4a3a-ae04-be764e228ee1",
+      "timestamp": "2026-08-29T22:17:51.459771+00:00"
+    },
+    {
+      "asset": "/api/v1/tables/b9280fbe-d9ea-4a3a-ae04-be764e228ee1",
+      "finding": "PATCH /api/v1/tables/b9280fbe-d9ea-4a3a-ae04-be764e228ee1",
+      "timestamp": "2026-08-29T22:25:20.143659+00:00"
+    },
+    {
+      "asset": "/api/v1/tables/b9280fbe-d9ea-4a3a-ae04-be764e228ee1",
+      "finding": "PATCH /api/v1/tables/b9280fbe-d9ea-4a3a-ae04-be764e228ee1",
+      "timestamp": "2026-08-29T23:20:49.109563+00:00"
+    },
+    {
+      "asset": "/api/v1/tables/b9280fbe-d9ea-4a3a-ae04-be764e228ee1",
+      "finding": "PATCH /api/v1/tables/b9280fbe-d9ea-4a3a-ae04-be764e228ee1",
+      "timestamp": "2026-08-29T23:27:27.635929+00:00"
     }
   ]
 }

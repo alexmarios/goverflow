@@ -31,7 +31,7 @@ gdelt_masterfile = Dataset(f"file://{LOCAL_PATH}")
 
 # Downstream Dataset URI — Airflow postgres provider requires host:port/db/schema/table.
 # Host is read from POSTGRES_DSN env var (written by access_hosts.py) so it stays
-# consistent with gkd_hourly_sync.py which parses its own POSTGRES_CONN.
+# consistent with gkg_daily_sync.py which parses its own POSTGRES_CONN.
 _pg_dsn = _urlparse(os.environ.get("POSTGRES_DSN", f"postgresql://stack_user:stack_password@100.95.246.75:5432/{DB_NAME}"))
 postgres_raw_data = Dataset(f"postgresql://{_pg_dsn.hostname}:{_pg_dsn.port or 5432}/{DB_NAME}/public/raw_data")
 
@@ -127,7 +127,7 @@ def load_to_postgres():
                 f"Ensure gdelt_masterfilelist_sync DAG has run successfully and wrote to this location."
             )
         
-        with open(LOCAL_PATH, "r") as f:
+        with open(LOCAL_PATH, "r", errors="ignore") as f:
             for line_num, line in enumerate(f, 1):
                 line = line.strip()
                 if not line:
@@ -139,6 +139,12 @@ def load_to_postgres():
                         print(f"Warning: Skipping malformed line {line_num}: {line[:80]}")
                     continue
                 size_bytes, md5, url = parts
+                
+                # PostgreSQL does not support NUL characters in TEXT/VARCHAR fields.
+                # Sanitize all components of the row.
+                md5 = md5.replace('\x00', '')
+                url = url.replace('\x00', '')
+                
                 file_ts = extract_file_timestamp(url)
 
                 if watermark and file_ts and file_ts <= watermark:
@@ -159,6 +165,8 @@ def load_to_postgres():
         inserted = 0
         if rows:
             with conn.cursor() as cur:
+                # We use a more robust insertion method to avoid NUL character issues 
+                # even if some slipped through, although replace('\x00', '') should handle it.
                 cur.executemany("""
                     INSERT INTO raw_data (file_size_bytes, md5_hash, file_url, file_type, file_timestamp)
                     VALUES (%s, %s, %s, %s, %s)

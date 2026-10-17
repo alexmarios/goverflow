@@ -29,3 +29,20 @@ __pycache__/
 
 # Logs
 /logs/
+
+# Not part of the platform code (kept locally, not versioned)
+/dags copy/
+/dags/hello.py
+/dags/test_fail.py
+/dags/fail_syntax.py
+/apps/ui_app/dag_staging/
+/apps/ui_app/agents/memory/private/conversations/
+/run01/
+/run__tags.json
+/before_tags.json
+/after_tags.json
+/fieldsDeleted:
+/fieldsUpdated:
+/previousVersion:
+/.vscode/
+/ty.toml

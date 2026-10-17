@@ -72,7 +72,7 @@ All services run in a single Docker Compose network (`stack_net`). The Raspberry
 | Service | Port | Image / Build | Description |
 |---|---|---|---|
 | PostgreSQL | 5432 | `postgres:15` | Stores Airflow metadata and OpenMetadata catalog data across `airflow_db` and `openmetadata_db`. `stack_db` (GDELT event tables) must be created separately — it is not in `init-db.sql`. |
-| MongoDB | 27017 | `mongo:7` | Stores processed GDELT GKG records (`gkd_db`), agent memory, and document collections |
+| MongoDB | 27017 | `mongo:7` | Stores processed GDELT GKG records (`gkg_db`), agent memory, and document collections |
 | Kafka | 9092 / 29092 | `confluentinc/cp-kafka:7.7.1` | KRaft-mode (no ZooKeeper) broker for event streaming and agent-to-agent messaging |
 | Elasticsearch | 9200 | `docker.elastic.co/elasticsearch:7.17.24` | Full-text search index backing OpenMetadata's discovery UI |
 | OpenMetadata | 8585 | `openmetadata/server:1.12.5` | Data catalog, lineage tracking, data quality tests, and asset classification |
@@ -303,7 +303,7 @@ The `decomposition_cache` means repeated or similar questions get faster, cheape
 **Model:** `deepseek-v4-flash:cloud` via Ollama (temperature 0.0)  
 **Knowledge docs:** `gdelt-manual.md`, `mongodb-context7.md`, `postgressql-context7.md` — injected at startup. Also receives GDELT domain knowledge (CAMEO codes, Goldstein scale, etc.) baked into its system prompt, same as the Orchestrator.
 
-Produces structured analytics from GDELT data stored in **PostgreSQL** (`stack_db`) and **MongoDB** (`gkd_db`). Specialises in news digests, event frequency counts, tone analysis, and cross-source correlation.
+Produces structured analytics from GDELT data stored in **PostgreSQL** (`stack_db`) and **MongoDB** (`gkg_db`). Specialises in news digests, event frequency counts, tone analysis, and cross-source correlation.
 
 Uses a `ThreadPoolExecutor` to parallelise multi-source queries and reduce response time on the Raspberry Pi's limited CPU.
 
@@ -715,7 +715,7 @@ All Airflow API calls use HTTP Basic Auth with the `AIRFLOW_USER` / `AIRFLOW_PAS
 | `gdelt_masterfilelist_sync` | Every 15 min | Time | Downloads the GDELT v2 master file list from `data.gdeltproject.org` in 1 MB streaming chunks, up to 10 retries with resumption from a `.tmp` file |
 | `gdelt_masterfilelist_to_postgres` | Dataset-triggered | `file://masterfilelist.txt` | Parses the master file list and loads new GDELT event records into PostgreSQL `stack_db` |
 | `gdelt_masterfilelist_validate` | Dataset-triggered | upstream DAG | Validates loaded records: row counts, null checks, schema assertions |
-| `gkd_hourly_sync` | Hourly | Time | Downloads GKG `.zip` files from GDELT (URLs sourced from PostgreSQL), parses 27-column TSV, and loads records into MongoDB `gkd_db` via atomic staging rename |
+| `gkg_daily_sync` | Daily | Time | Downloads GKG `.zip` files from GDELT (URLs sourced from PostgreSQL), parses 27-column TSV, and loads records into MongoDB `gkg_db` via atomic staging rename |
 | `catalog_manifest_refresh` | Every 30 min | Time | Pulls the full asset catalog from OpenMetadata + PostgreSQL + MongoDB in parallel (using `ThreadPoolExecutor`) and writes `catalog_manifest.json`; three catalog sources: OpenMetadata REST API, PostgreSQL `information_schema`, MongoDB collection stats |
 | `kafka_callbacks` | — | — | Shared `on_failure_callback` used by all DAGs to publish failure events to the `airflow-events` Kafka topic; imported as a module, not a standalone DAG |
 | UUID-named DAGs | Various | Various | Dynamically generated DAGs created by the Coder agent; JSON configs stored in `dag_generated_configs/` |
@@ -782,9 +782,9 @@ The Orchestrator and Analyst system prompts include the following domain referen
 
 > Neo4j and Elasticsearch are referenced in the Orchestrator system prompt as part of the intended polystore. Neo4j is not currently running in the Docker Compose stack but is designed for future graph analytics.
 
-### GKG data in MongoDB (`gkd_db`)
+### GKG data in MongoDB (`gkg_db`)
 
-"GKD" in the codebase (DAG id `gkd_daily_sync`, collection `last_24hours_gkd`) refers to **GDELT GKG Data** — it is not a separate data source. The `gkd_daily_sync` DAG reads GKG file URLs from PostgreSQL (populated by `gdelt_masterfilelist_to_postgres`), downloads each `.zip` from GDELT, parses the 27-column TSV, and streams records to MongoDB in batches of 500.
+"GKD" in the codebase (collection `last_24hours_gkd`) refers to **GDELT GKG Data** — it is not a separate data source. The Mongo database itself was renamed from `gkd_db` to `gkg_db` for consistency with the naming used elsewhere (`gdelt_gkg_ingest`, `gkg_daily_sync`); only the collection name (`last_24hours_gkd`) still carries the old "gkd" label. The `gkg_daily_sync` DAG (dag_id renamed from `gkd_daily_sync` to match the GKG naming) reads GKG file URLs from PostgreSQL (populated by `gdelt_masterfilelist_to_postgres`), downloads each `.zip` from GDELT, parses the 27-column TSV, and streams records to MongoDB in batches of 500.
 
 An atomic staging rename (`last_24hours_gkd_staging` → `last_24hours_gkd`) ensures the live collection is never partially updated — any crash leaves the previous run's data intact.
 
@@ -1006,7 +1006,7 @@ goverflow/
 │   ├── gdelt_masterfilelist_sync.py       # 15-min GDELT master file download
 │   ├── gdelt_masterfilelist_to_postgres.py # Dataset-triggered: parse + load
 │   ├── gdelt_masterfilelist_validate.py    # Dataset-triggered: quality checks
-│   ├── gkd_hourly_sync.py                 # Hourly GKD Kafka → MongoDB
+│   ├── gkg_daily_sync.py                  # Daily GKG PostgreSQL → MongoDB
 │   ├── kafka_callbacks.py                 # Shared on_failure_callback → Kafka
 │   ├── data/raw/                          # Downloaded GDELT master file list
 │   └── <uuid>.py                          # Dynamically generated DAGs (Coder agent)

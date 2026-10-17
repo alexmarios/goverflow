@@ -2,7 +2,7 @@
 Analyst Agent
 -------------
 GDELT GKG analytics agent — produces 3-hour news digests from
-PostgreSQL (stack_db) and MongoDB (gkd_db.last_hour_gkd).
+PostgreSQL (stack_db) and MongoDB (gkg_db.last_hour_gkd).
 """
 
 import json

@@ -21,6 +21,12 @@ from airflow.operators.python import PythonOperator
 from airflow.utils.dates import days_ago
 from datetime import timedelta
 
+default_args = {
+    "owner": "airflow",
+    "retries": 3,
+    "retry_delay": timedelta(minutes=5),
+}
+
 MANIFEST_PATH = "/home/alexpi/goverflow/apps/ui_app/agents/memory/catalog_manifest.json"
 
 OM_HOST  = os.getenv("OPENMETADATA_HOST", "http://openmetadata-server:8585")
@@ -283,6 +289,7 @@ with DAG(
     schedule=timedelta(minutes=30),
     catchup=False,
     max_active_runs=1,
+    default_args=default_args,
     tags=["governance", "catalog"],
 ) as dag:
     PythonOperator(

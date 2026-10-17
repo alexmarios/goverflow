@@ -67,6 +67,7 @@ def download_masterfilelist():
         raise RuntimeError("Failed to download masterfilelist after maximum retries.")
 
 
+# Reviewed 2026-07
 with DAG(
     dag_id="gdelt_masterfilelist_sync",
     start_date=days_ago(1),
@@ -89,3 +90,5 @@ with DAG(
         python_callable=download_masterfilelist,
         outlets=[gdelt_masterfile],
     )
+
+def check(

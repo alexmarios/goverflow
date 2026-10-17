@@ -11,7 +11,7 @@ uvicorn
 watchfiles
 psycopg2-binary
 pymongo
-kafka-python
+kafka-python==2.0.2
 redis
 pdfminer.six
 pypdf

@@ -20,7 +20,7 @@ from kafka_callbacks import on_failure_callback
 # Configuration
 POSTGRES_CONN = "postgresql://stack_user:stack_password@100.95.246.75:5432/stack_db"
 MONGO_CONN = "mongodb://admin:yourpassword@100.95.246.75:27017/"
-MONGO_DB = "gkd_db"
+MONGO_DB = "gkg_db"
 MONGO_COLL = "last_24hours_gkd"
 MONGO_STAGING = "last_24hours_gkd_staging"
 
@@ -51,7 +51,7 @@ default_args = {
 }
 
 with DAG(
-    dag_id="gkd_daily_sync",
+    dag_id="gkg_daily_sync",
     schedule="0 0 * * *",
     start_date=days_ago(1),
     catchup=False,
@@ -60,7 +60,7 @@ with DAG(
     description=(
         "Daily ETL: reads GKG file URLs for the past 24 h from PostgreSQL "
         "(stack_db.public.raw_data), downloads and parses each .zip from GDELT, "
-        "streams records into MongoDB staging (gkd_db.last_24hours_gkd_staging) "
+        "streams records into MongoDB staging (gkg_db.last_24hours_gkd_staging) "
         "in batches of 500, then atomically renames staging → live collection."
     ),
     on_failure_callback=on_failure_callback,
